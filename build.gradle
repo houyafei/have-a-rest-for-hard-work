@@ -1,0 +1,48 @@
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+    }
+}
+
+plugins {
+    id 'java'
+}
+
+group 'WorkingHard'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor
+    compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.22'
+
+}
+
+apply plugin: 'javafx-gradle-plugin'
+jfx {
+    verbose = true
+
+    deployDir = "src/main/deploy/"
+
+    // minimal requirement for jfxJar-task
+    mainClass = 'com.eye.Main'
+
+    // minimal requirement for jfxNative-task
+    vendor = 'houyafei'
+
+    appName = "WorkHard"
+
+}

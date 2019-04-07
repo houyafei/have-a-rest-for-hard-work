@@ -1,0 +1,6 @@
+/META-INF
+/.idea
+/.gradle
+/out
+/build
+*.class
