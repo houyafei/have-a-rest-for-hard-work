@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
-//import java.util.prefs;
 public class Constants {
     public static String ENCOURAGE_MSG;
     public static int WORKING_INTERVAL_SECONDS;
