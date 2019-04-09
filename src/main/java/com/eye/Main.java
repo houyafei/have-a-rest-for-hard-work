@@ -49,13 +49,12 @@ public class Main extends Application {
 
     final private ActorSystem system = ActorSystem.create("hyf");
     private ActorRef clockActorRef;
-    private MessageInterface cmdMessage;
 
     private List<Stage> stages = new ArrayList<>();
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         GridPane root = new GridPane();
         primaryStage.setTitle("Take care yourself");
 
@@ -74,10 +73,10 @@ public class Main extends Application {
         root.setHgap(10);
         root.setAlignment(Pos.TOP_CENTER);
         Label label1 = new Label("\u8bbe\u7f6e\u5de5\u4f5c\u65f6\u957f\u0028\u5206\u949f\u0029"); //工作时长
-        TextField textFieldWorkInterval = new TextField("50");
+        TextField textFieldWorkInterval = new TextField(""+(Constants.WORKING_INTERVAL_SECONDS)/60);
 
         Label label2 = new Label("\u8bbe\u7f6e\u4f11\u606f\u65f6\u957f\u0028\u5206\u949f\u0029"); //休息时长
-        TextField textFieldRestInterval = new TextField("3");
+        TextField textFieldRestInterval = new TextField(""+(Constants.REST_INTERVAL_SECONDS)/60);
         Button saveConfig = new Button("Save");//保存修改
         saveConfig.setOnMouseClicked(event -> {
             String workStr = textFieldWorkInterval.getText();
@@ -87,7 +86,7 @@ public class Main extends Application {
                     || Integer.valueOf(workStr) <= 0
                     || Integer.valueOf(restStr) <= 0
                     || Integer.valueOf(workStr) <= Integer.valueOf(restStr)) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.titleProperty().set("Note!!");
                 alert.headerTextProperty().set("\u65f6\u95f4\u8bbe\u7f6e\u4e0d\u5408\u7406\uff0c\u6216\u8005\u8f93\u5165\u4e86\u975e\u6cd5\u5b57\u7b26");//"时间设置不合理，或者输入了非法字符"
                 alert.showAndWait();
@@ -138,13 +137,13 @@ public class Main extends Application {
     }
 
     private void ImplCmdMessageInterface() {
-        cmdMessage = new MessageInterface() {
+        MessageInterface cmdMessage = new MessageInterface() {
             @Override
             public void openWin() {
                 Platform.runLater(() -> {
                     for (Screen screen : Screen.getScreens()) {
                         Rectangle2D bounds = screen.getVisualBounds();
-                        Stage stage1 = createNewWin("Have a rest");
+                        Stage stage1 = createNewWin();
                         stage1.setX(bounds.getMinX());
                         stage1.setY(bounds.getMinY());
                         stage1.setMaximized(true);
@@ -173,7 +172,7 @@ public class Main extends Application {
         clockActorRef = system.actorOf(Props.create(ClockActor.class, cmdMessage), "clockActor");
     }
 
-    private Stage createNewWin(String name) {
+    private Stage createNewWin() {
         Background background = new Background(new BackgroundImage(new Image(Constants.BACK_IMAGE), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
         Background labelBack = new Background(new BackgroundImage(new Image("/images/labelback2.png"), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
@@ -188,7 +187,7 @@ public class Main extends Application {
         protectLabel.setPrefHeight(160);
         root.setCenter(protectLabel);
         root.setBackground(background);
-        stage.setTitle(name);
+        stage.setTitle("Have a rest");
         stage.setScene(new Scene(root));
 
         return stage;

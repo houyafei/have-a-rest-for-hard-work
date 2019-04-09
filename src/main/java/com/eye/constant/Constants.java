@@ -45,4 +45,12 @@ public class Constants {
         }
 
     }
+
+    public static String getProperties(String key) {
+        if (properties.containsKey(key)) {
+            return properties.getProperty(key);
+        } else {
+            return null;
+        }
+    }
 }

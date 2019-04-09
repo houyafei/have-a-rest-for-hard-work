@@ -7,8 +7,11 @@
 
 # 4、 使用相关技术
 1)、akka actor的定时执行
+
 2)、javaFX设置界面
-3)、gradle-javafx-plugin 实现打包
+
+3)、javafx-gradle-plugin 实现打包
+
 配置图标时，注意放图标的位置为 src/main/deploy/package/windows
 
 #5、支持所有屏幕全部锁屏
