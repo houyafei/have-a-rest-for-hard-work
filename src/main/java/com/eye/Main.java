@@ -189,6 +189,7 @@ public class Main extends Application {
         root.setBackground(background);
         stage.setTitle("Have a rest");
         stage.setScene(new Scene(root));
+        stage.setAlwaysOnTop(true);
 
         return stage;
     }
