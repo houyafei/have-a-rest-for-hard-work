@@ -55,6 +55,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+//        String psth = "C:\\Users\\houya\\Pictures\\FLAMING MOUNTAIN.JPG";
+//        Background background = new Background(new BackgroundImage(new Image("file:/"+psth),
+//                null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
+
         GridPane root = new GridPane();
         primaryStage.setTitle("Take care yourself");
 
@@ -62,9 +66,12 @@ public class Main extends Application {
 
         ImplCmdMessageInterface();
 
+//        root.setBackground(background);
+
         primaryStage.setOnCloseRequest(existWin());
         primaryStage.setIconified(true);
         primaryStage.getIcons().add(new Image("/images/ico2.png"));
+//        primaryStage
         primaryStage.show();
     }
 
@@ -73,10 +80,10 @@ public class Main extends Application {
         root.setHgap(10);
         root.setAlignment(Pos.TOP_CENTER);
         Label label1 = new Label("\u8bbe\u7f6e\u5de5\u4f5c\u65f6\u957f\u0028\u5206\u949f\u0029"); //工作时长
-        TextField textFieldWorkInterval = new TextField(""+(Constants.WORKING_INTERVAL_SECONDS)/60);
+        TextField textFieldWorkInterval = new TextField("" + (Constants.WORKING_INTERVAL_SECONDS) / 60);
 
         Label label2 = new Label("\u8bbe\u7f6e\u4f11\u606f\u65f6\u957f\u0028\u5206\u949f\u0029"); //休息时长
-        TextField textFieldRestInterval = new TextField(""+(Constants.REST_INTERVAL_SECONDS)/60);
+        TextField textFieldRestInterval = new TextField("" + (Constants.REST_INTERVAL_SECONDS) / 60);
         Button saveConfig = new Button("Save");//保存修改
         saveConfig.setOnMouseClicked(event -> {
             String workStr = textFieldWorkInterval.getText();
@@ -173,7 +180,7 @@ public class Main extends Application {
     }
 
     private Stage createNewWin() {
-        Background background = new Background(new BackgroundImage(new Image(Constants.BACK_IMAGE), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
+        Background background = new Background(new BackgroundImage(new Image(Constants.getBackImagePath()), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
         Background labelBack = new Background(new BackgroundImage(new Image("/images/labelback2.png"), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
         Stage stage = new Stage();
