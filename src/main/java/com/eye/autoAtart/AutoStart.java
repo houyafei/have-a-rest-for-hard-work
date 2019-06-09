@@ -1,19 +1,50 @@
 package com.eye.autoAtart;
 
+import com.eye.constant.Constants;
+
 import java.io.File;
 import java.io.IOException;
 
 public class AutoStart {
 
+    private MyShortCut myShortCut;
 
-    public static void main(String[] args) {
-        if (args.length>=1){
-            System.out.println(new AutoStart().setAutoStart(true,args[0]));
+    AutoStart(MyShortCut myShortCut) {
+        this.myShortCut = myShortCut;
+    }
+
+    public AutoStart() {
+        this.myShortCut = new MyShortCut();
+    }
+
+
+//    public static void main(String[] args) {
+//        AutoStart autoStart = new AutoStart(new MyShortCut());
+//        MyShortCut shortCutFile = autoStart.getMyShortCut();
+//        String linkFileName = shortCutFile.obtainShortCutFile();
+//        if (linkFileName != null) {
+//            boolean res = autoStart.setAutoStart(false, "C:\\dev_soft\\WorkHard\\WorkHard.lnk");
+//            System.out.println("setting auto Constants.IS_AUTO_START " + linkFileName + "\n" + Constants.IS_AUTO_START + "--" + res);
+//        }
+//
+//        //        boolean res = autoStart.setAutoStart(false, "C:\\dev_soft\\WorkHard\\WorkHard.lnk");
+////        System.out.println( res);
+//
+//    }
+
+    public boolean setAutoStart() {
+        String linkFileName = myShortCut.obtainShortCutFile();
+        boolean result = false;
+        if (linkFileName != null) {
+            result = setAutoStart(Constants.IS_AUTO_START, linkFileName);
+            System.out.println("setting auto Constants.IS_AUTO_START " + linkFileName + "\n" + Constants.IS_AUTO_START + "--" + result);
         }
+
+        return result;
     }
 
     // 写入快捷方式 是否自启动，快捷方式的名称，注意后缀是lnk
-    public boolean setAutoStart(boolean yesAutoStart, String lnk) {
+    private boolean setAutoStart(boolean yesAutoStart, String lnk) {
         File f = new File(lnk);
         String p = f.getAbsolutePath();
         String startFolder = "";
@@ -35,9 +66,10 @@ public class AutoStart {
 
     // 设置是否随系统启动
     private boolean setRunBySys(boolean b, String path, String path2, String lnk) {
-        File file = new File(path2 + "\\" + lnk);
+
         Runtime run = Runtime.getRuntime();
         File f = new File(lnk);
+        File file = new File(path2 + "\\" + f.getName());
 
         // 复制
         try {
@@ -69,6 +101,7 @@ public class AutoStart {
                         }
                         Thread.sleep(500);
                     }
+                    System.out.println("file:" + formatPath(file.getAbsolutePath()));
                     run.exec("cmd /c del " + formatPath(file.getAbsolutePath()));
                 }
             }

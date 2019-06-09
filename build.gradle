@@ -28,6 +28,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     // https://mvnrepository.com/artifact/com.typesafe.akka/akka-actor
     compile group: 'com.typesafe.akka', name: 'akka-actor_2.12', version: '2.5.22'
+    compile fileTree(dir: 'libs', includes: ['*.jar'])
 
 }
 compileJava {

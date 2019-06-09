@@ -1,6 +1,7 @@
 package com.eye.constant;
 
 
+import com.eye.autoAtart.AutoStart;
 import com.eye.util.BiyingImage;
 
 import java.io.*;
@@ -20,6 +21,9 @@ public class Constants {
     private static int backImageIndex = 0;
 
     public static int BACK_IMAGE_SAVE_INDEX = 0;
+
+    public static boolean IS_AUTO_START = false;
+
     public static Properties properties = new Properties();
 
     public static URL resource_URL = Constants.class.getClassLoader().getResource("userconf.properties");
@@ -28,8 +32,8 @@ public class Constants {
     public static final String WORKING_INTERVAL_SECONDS_KEY = "myeye.working.interval.seconds";
     public static final String REST_INTERVAL_SECONDS_KEY = "myeye.rest.interval.seconds";
     private static final String BACK_IMAGE_KEY = "myeye.back.image.path";
-
     private static final String BACK_IMAGE_INDEX_KEY = "myeye.back.image.index";
+    private static final String AUTO_START_KEY = "myeye.software.auto.start";
 
 
     static {
@@ -48,10 +52,12 @@ public class Constants {
             WORKING_INTERVAL_SECONDS = Integer.parseInt(properties.getProperty(WORKING_INTERVAL_SECONDS_KEY, String.valueOf(50 * 60)));
             REST_INTERVAL_SECONDS = Integer.parseInt(properties.getProperty(REST_INTERVAL_SECONDS_KEY, String.valueOf(50 * 60)));
             BACK_IMAGE_SAVE_INDEX = Integer.parseInt(properties.getProperty(BACK_IMAGE_INDEX_KEY, String.valueOf(0)));
+            IS_AUTO_START = Boolean.parseBoolean(properties.getProperty(AUTO_START_KEY, "true"));
 
             BACK_IMAGE = properties.getProperty(BACK_IMAGE_KEY, "/images/water2.jpg");
             BACK_IMAGES = BACK_IMAGE.split(";");
             backImageIndex = BACK_IMAGE_SAVE_INDEX;
+            IS_AUTO_START = Boolean.parseBoolean(properties.getProperty(AUTO_START_KEY, "true"));
             setBiyingBackImage();
         } catch (IOException e) {
             e.printStackTrace();
@@ -117,12 +123,25 @@ public class Constants {
 
         BACK_IMAGE = newBackImages.toString();
         ++BACK_IMAGE_SAVE_INDEX;
+        BACK_IMAGES = BACK_IMAGE.split(";");
         Constants.saveProperties(BACK_IMAGE_KEY, BACK_IMAGE);
         Constants.saveProperties(BACK_IMAGE_INDEX_KEY, BACK_IMAGE_SAVE_INDEX);
     }
 
     public static String getBackImagePath() {
-        return BACK_IMAGES[(backImageIndex++) % BACK_IMAGES.length];
+        backImageIndex++;
+        System.out.println(BACK_IMAGES[(backImageIndex) % BACK_IMAGES.length]);
+        return BACK_IMAGES[(backImageIndex) % BACK_IMAGES.length];
+    }
+
+    public static void setAutoStart() {
+        new Thread(() -> {
+            boolean res = new AutoStart().setAutoStart();
+            if (res) {
+                saveProperties(AUTO_START_KEY, IS_AUTO_START);
+            }
+            System.out.println("create shortcut"+res);
+        }).start();
     }
 
 }

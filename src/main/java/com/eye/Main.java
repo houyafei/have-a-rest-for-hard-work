@@ -5,6 +5,7 @@ import akka.actor.ActorSystem;
 import akka.actor.Props;
 
 import static akka.pattern.Patterns.gracefulStop;
+import static com.eye.constant.Constants.setAutoStart;
 
 import akka.pattern.AskTimeoutException;
 
@@ -14,16 +15,14 @@ import com.eye.msgInterface.MessageInterface;
 import com.eye.myclock.ClockActor;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -79,12 +78,23 @@ public class Main extends Application {
         root.setVgap(20);
         root.setHgap(10);
         root.setAlignment(Pos.TOP_CENTER);
+
         Label label1 = new Label("\u8bbe\u7f6e\u5de5\u4f5c\u65f6\u957f\u0028\u5206\u949f\u0029"); //工作时长
         TextField textFieldWorkInterval = new TextField("" + (Constants.WORKING_INTERVAL_SECONDS) / 60);
 
         Label label2 = new Label("\u8bbe\u7f6e\u4f11\u606f\u65f6\u957f\u0028\u5206\u949f\u0029"); //休息时长
         TextField textFieldRestInterval = new TextField("" + (Constants.REST_INTERVAL_SECONDS) / 60);
-        Button saveConfig = new Button("Save");//保存修改
+
+        CheckBox autoStartCheck = new CheckBox("开机自启动");
+        autoStartCheck.setSelected(Constants.IS_AUTO_START);
+        autoStartCheck.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+            if (new_val != Constants.IS_AUTO_START) {
+                Constants.IS_AUTO_START = new_val;
+                setAutoStart();
+            }
+        });
+
+        Button saveConfig = new Button("保存时间设置");//保存修改
         saveConfig.setOnMouseClicked(event -> {
             String workStr = textFieldWorkInterval.getText();
             String restStr = textFieldRestInterval.getText();
@@ -106,14 +116,19 @@ public class Main extends Application {
                 primaryStage.setIconified(true);
             }
         });
-        Label setting = new Label("Setting");
+
+        Label setting = new Label("设置");
         setting.setFont(Font.font(20));
         GridPane.setHalignment(setting, HPos.CENTER);
+
+
         root.add(setting, 0, 0, 2, 1);
         root.add(label1, 0, 1);
         root.add(textFieldWorkInterval, 1, 1);
         root.add(label2, 0, 2);
         root.add(textFieldRestInterval, 1, 2);
+        root.add(autoStartCheck, 0, 3);
+
         root.add(saveConfig, 1, 3);
 
         primaryStage.setScene(new Scene(root, 450, 200));
