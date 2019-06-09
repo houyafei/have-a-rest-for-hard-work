@@ -30,3 +30,11 @@
 # 6、锁频壁纸
 
 通过必应首页的图片作为锁屏壁纸。
+
+# 7、参考
+【1】[源码地址](https://github.com/houyafei/have-a-rest-for-hard-work)
+【2】[java创建exe程序快捷键方式](https://blog.csdn.net/rico_zhou/article/details/80062917)
+
+# 8、使用
+
+直接将 WorkHard 文件夹下的所有文件全部下载，双击其中的可执行文件即可执行。
