@@ -103,21 +103,14 @@ public class Constants {
             newBackImages.append(backImage);
 
         } else if (BACK_IMAGES.length < 5) {
-            newBackImages.append(BACK_IMAGE).append(";").append(backImage);
+            newBackImages.append(backImage).append(";").append(BACK_IMAGE);
 
         } else {
-            for (int i = 0; i < BACK_IMAGES.length; i++) {
-                if (i == 0) {
-                    pre = "";
-                } else {
-                    pre = ";";
-                }
-                if (BACK_IMAGE_SAVE_INDEX % 5 == i) {
-                    newBackImages.append(pre).append(backImage);
-                } else {
-                    newBackImages.append(pre).append(BACK_IMAGES[i]);
+            newBackImages.append(backImage);
+            for (int i = 0; i < BACK_IMAGES.length - 1; i++) {
 
-                }
+                newBackImages.append(";").append(BACK_IMAGES[i]);
+
             }
         }
 
@@ -131,7 +124,12 @@ public class Constants {
     public static String getBackImagePath() {
         backImageIndex++;
         System.out.println(BACK_IMAGES[(backImageIndex) % BACK_IMAGES.length]);
-        return BACK_IMAGES[(backImageIndex) % BACK_IMAGES.length];
+        File file = new File(BACK_IMAGES[(backImageIndex) % BACK_IMAGES.length].substring(6));
+        if (file.exists()) {
+            return BACK_IMAGES[(backImageIndex) % BACK_IMAGES.length];
+        } else {
+            return "/images/water2.jpg";
+        }
     }
 
     public static void setAutoStart() {
@@ -140,7 +138,6 @@ public class Constants {
             if (res) {
                 saveProperties(AUTO_START_KEY, IS_AUTO_START);
             }
-            System.out.println("create shortcut"+res);
         }).start();
     }
 

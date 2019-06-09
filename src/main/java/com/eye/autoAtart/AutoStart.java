@@ -101,7 +101,6 @@ public class AutoStart {
                         }
                         Thread.sleep(500);
                     }
-                    System.out.println("file:" + formatPath(file.getAbsolutePath()));
                     run.exec("cmd /c del " + formatPath(file.getAbsolutePath()));
                 }
             }
