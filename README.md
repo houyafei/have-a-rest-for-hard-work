@@ -1,6 +1,15 @@
 # 1、设置工作时间
 
+时间页面设置效果图：
+
+![效果图](https://github.com/houyafei/have-a-rest-for-hard-work/blob/gitimage/setting_page.png)
+
 # 2、设置休息时间
+
+锁屏休息页面效果图
+
+![效果图](https://github.com/houyafei/have-a-rest-for-hard-work/blob/gitimage/lock_page.png)
+
 
 # 3、定时锁屏
 锁屏状态下，如果要想强制解锁，连续点击5次鼠标即可开锁
