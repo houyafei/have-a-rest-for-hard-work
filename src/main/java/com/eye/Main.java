@@ -163,9 +163,10 @@ public class Main extends Application {
             @Override
             public void openWin() {
                 Platform.runLater(() -> {
+                    String backImagePath = Constants.getBackImagePath();
                     for (Screen screen : Screen.getScreens()) {
                         Rectangle2D bounds = screen.getVisualBounds();
-                        Stage stage1 = createNewWin();
+                        Stage stage1 = createNewWin(bounds.getWidth(), bounds.getHeight(), backImagePath);
                         stage1.setX(bounds.getMinX());
                         stage1.setY(bounds.getMinY());
                         stage1.setMaximized(true);
@@ -194,8 +195,10 @@ public class Main extends Application {
         clockActorRef = system.actorOf(Props.create(ClockActor.class, cmdMessage), "clockActor");
     }
 
-    private Stage createNewWin() {
-        Background background = new Background(new BackgroundImage(new Image(Constants.getBackImagePath()), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
+    private Stage createNewWin(double width, double height, String backImagePath) {
+        BackgroundSize backgroundSize = new BackgroundSize(width, height, true, true, false, true);
+        Background background = new Background(new BackgroundImage(new Image(backImagePath),
+                null, null, BackgroundPosition.CENTER, backgroundSize));
         Background labelBack = new Background(new BackgroundImage(new Image("/images/labelback2.png"), null, null, BackgroundPosition.CENTER, BackgroundSize.DEFAULT));
 
         Stage stage = new Stage();
