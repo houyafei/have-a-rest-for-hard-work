@@ -97,20 +97,14 @@ public class Constants {
 
     private static void saveNewImage(String backImage) {
         StringBuilder newBackImages = new StringBuilder();
-        String pre;
-
         if (BACK_IMAGES.length == 1 && flag) {
             newBackImages.append(backImage);
-
         } else if (BACK_IMAGES.length < 5) {
             newBackImages.append(backImage).append(";").append(BACK_IMAGE);
-
         } else {
             newBackImages.append(backImage);
             for (int i = 0; i < BACK_IMAGES.length - 1; i++) {
-
                 newBackImages.append(";").append(BACK_IMAGES[i]);
-
             }
         }
 
