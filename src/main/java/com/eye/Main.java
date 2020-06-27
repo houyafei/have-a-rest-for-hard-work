@@ -16,6 +16,8 @@ import com.eye.myclock.ClockActor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -51,6 +53,7 @@ public class Main extends Application {
 
     private List<Stage> stages = new ArrayList<>();
 
+    private ComboBox<String> asd = new ComboBox<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -117,6 +120,43 @@ public class Main extends Application {
             }
         });
 
+        ObservableList<String> data = FXCollections.observableArrayList();
+        Label label3 = new Label("添加激励语言");
+        TextField luckyword = new TextField("一寸光阴一寸金" );
+        Button btnAdd = new Button("+");
+        btnAdd.setOnMouseClicked(event -> {
+            String encourageWord = luckyword.getText();
+            System.out.println("--->"+encourageWord);
+            boolean isSaved = false;
+            for (String str :Constants.getEncourageMsgs()) {
+                if (str.equals(encourageWord.trim())){
+                    System.out.println(""+isSaved);
+                    isSaved = true;
+                    break;
+                }
+            }
+            if (!isSaved){
+                Constants.ENCOURAGE_MSGS += ";"+encourageWord;
+                Constants.saveProperties(Constants.ENCOURAGE_MSG_KEY, Constants.ENCOURAGE_MSGS);
+                data.clear();
+                data.addAll(Constants.getEncourageMsgs());
+
+            }
+
+
+        });
+
+        Label label4 = new Label("选择激励语言"); //休息时长
+        asd.setItems(data);
+        asd.setPromptText("选择激励语言->");
+        data.addAll(Constants.getEncourageMsgs());
+        asd.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            System.out.println("---->12"+newValue);
+            if (newValue!=null){
+                Constants.ENCOURAGE_MSG = newValue;
+            }
+        });
+
         Label setting = new Label("设置");
         setting.setFont(Font.font(20));
         GridPane.setHalignment(setting, HPos.CENTER);
@@ -127,11 +167,16 @@ public class Main extends Application {
         root.add(textFieldWorkInterval, 1, 1);
         root.add(label2, 0, 2);
         root.add(textFieldRestInterval, 1, 2);
-        root.add(autoStartCheck, 0, 3);
+        root.add(label3, 0, 3);
+        root.add(luckyword, 1, 3);
+        root.add(btnAdd, 2, 3);
+        root.add(label4, 0, 4);
+        root.add(asd, 1, 4);
+        root.add(autoStartCheck, 0, 5);
 
-        root.add(saveConfig, 1, 3);
+        root.add(saveConfig, 1, 5);
 
-        primaryStage.setScene(new Scene(root, 450, 200));
+        primaryStage.setScene(new Scene(root, 450, 350));
     }
 
     private void restartClockActor() {
@@ -173,7 +218,7 @@ public class Main extends Application {
                         stage1.initStyle(StageStyle.TRANSPARENT);
                         stage1.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                             int count = event.getClickCount();
-                            if (count == 5) {
+                            if (count == 7) {
                                 stages.forEach(Stage::close);
                             }
                         });

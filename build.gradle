@@ -15,7 +15,7 @@ plugins {
 }
 
 group 'WorkingHard'
-version '1.0'
+version '1.2'
 
 sourceCompatibility = 1.8
 

@@ -31,7 +31,7 @@ public class ClockActor extends AbstractActorWithTimers {
                         s -> {
                             msgCmd.openWin();
                             log.info("get msg: (" + new Date().toString() + ")" + s);
-                            getTimers().startPeriodicTimer("start_key", "start", Duration.ofSeconds(Constants.WORKING_INTERVAL_SECONDS));
+                            getTimers().startPeriodicTimer("start_key", "start", Duration.ofSeconds(Constants.WORKING_INTERVAL_SECONDS+Constants.REST_INTERVAL_SECONDS));
                             getTimers().startSingleTimer("end_key", 1, Duration.ofSeconds(Constants.REST_INTERVAL_SECONDS));
                         })
                 .match(Integer.class,
@@ -44,22 +44,22 @@ public class ClockActor extends AbstractActorWithTimers {
     }
 
 
-    @Override
-    public void postStop() throws Exception {
-        super.postStop();
-        log.error(" i am stop now");
-    }
-
-    @Override
-    public void preStart() throws Exception {
-        super.preStart();
-        log.info("i am start now");
-    }
-
-    @Override
-    public void postRestart(Throwable reason) throws Exception {
-        super.postRestart(reason);
-        log.info("i am restart");
-    }
+//    @Override
+//    public void postStop()  {
+//        super.postStop();
+//        log.error(" i am stop now");
+//    }
+//
+//    @Override
+//    public void preStart()  {
+//        super.preStart();
+//        log.info("i am start now");
+//    }
+//
+//    @Override
+//    public void postRestart(Throwable reason) {
+//        super.postRestart(reason);
+//        log.info("i am restart");
+//    }
 }
 

@@ -13,6 +13,9 @@ public class Constants {
     private static boolean flag = true;
 
     public static String ENCOURAGE_MSG;
+
+    public static String ENCOURAGE_MSGS;
+
     public static int WORKING_INTERVAL_SECONDS;
     public static int REST_INTERVAL_SECONDS;
     private static String BACK_IMAGE;
@@ -47,8 +50,8 @@ public class Constants {
                 properties.load(new FileInputStream("userconf.properties"));
             }
 
-            ENCOURAGE_MSG = properties.getProperty(ENCOURAGE_MSG_KEY);
-
+            ENCOURAGE_MSG = properties.getProperty(ENCOURAGE_MSG_KEY).split(";")[0];
+            ENCOURAGE_MSGS = properties.getProperty(ENCOURAGE_MSG_KEY);
             WORKING_INTERVAL_SECONDS = Integer.parseInt(properties.getProperty(WORKING_INTERVAL_SECONDS_KEY, String.valueOf(50 * 60)));
             REST_INTERVAL_SECONDS = Integer.parseInt(properties.getProperty(REST_INTERVAL_SECONDS_KEY, String.valueOf(50 * 60)));
             BACK_IMAGE_SAVE_INDEX = Integer.parseInt(properties.getProperty(BACK_IMAGE_INDEX_KEY, String.valueOf(0)));
@@ -62,6 +65,10 @@ public class Constants {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String[] getEncourageMsgs(){
+        return ENCOURAGE_MSGS.split(";");
     }
 
     public static void saveProperties(String key, Object value) {
