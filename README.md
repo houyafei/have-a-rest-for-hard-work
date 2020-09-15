@@ -2,13 +2,13 @@
 
 时间页面设置效果图：
 
-![效果图](https://github.com/houyafei/have-a-rest-for-hard-work/raw/master/gitImage/v2.png)
+![效果图](https://raw.githubusercontent.com/houyafei/have-a-rest-for-hard-work/master/gitImage/v2.png)
 
 # 2、设置休息时间
 
 锁屏休息页面效果图
 
-![效果图](https://github.com/houyafei/have-a-rest-for-hard-work/raw/master/gitImage/lock_page.png)
+![效果图](https://raw.githubusercontent.com/houyafei/have-a-rest-for-hard-work/master/gitImage/lock_page.png)
 
 
 # 3、定时锁屏
