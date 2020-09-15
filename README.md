@@ -2,7 +2,7 @@
 
 时间页面设置效果图：
 
-![效果图](https://github.com/houyafei/have-a-rest-for-hard-work/blob/master/gitImage/setting_page.png?raw=true)
+![效果图](https://github.com/houyafei/have-a-rest-for-hard-work/blob/master/gitImage/v2.png)
 
 # 2、设置休息时间
 
