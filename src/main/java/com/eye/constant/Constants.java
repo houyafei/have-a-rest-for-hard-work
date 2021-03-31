@@ -27,6 +27,8 @@ public class Constants {
 
     public static boolean IS_AUTO_START = false;
 
+    public static boolean IS_LOCK_SCREEN = false;
+
     public static Properties properties = new Properties();
 
     public static URL resource_URL = Constants.class.getClassLoader().getResource("userconf.properties");

@@ -7,19 +7,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BiyingImage {
+
     public static String ObtianBackImage() {
         BiyingImage getBingPicture = new BiyingImage();
-        String home = "http://cn.bing.com";
+//        String home = "http://cn.bing.com";
         // 获取链接
         String filePath = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            String url = getBingPicture.GetUrl(home);
+            String url = "http://cdn.mrabit.com/1920."+format.format(new Date())+".jpg";
             // 保存图片
-            filePath = getBingPicture.SavePicture(home + url);
+            filePath = getBingPicture.SavePicture( url);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

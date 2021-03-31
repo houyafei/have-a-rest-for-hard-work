@@ -20,6 +20,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 
@@ -54,6 +55,8 @@ public class Main extends Application {
     private List<Stage> stages = new ArrayList<>();
 
     private ComboBox<String> asd = new ComboBox<>();
+
+    private CheckBox lockScreenCheck;
 
     @Override
     public void start(Stage primaryStage) {
@@ -97,6 +100,24 @@ public class Main extends Application {
             }
         });
 
+
+        lockScreenCheck = new CheckBox("持续锁屏");
+        lockScreenCheck.setSelected(Constants.IS_LOCK_SCREEN);
+        lockScreenCheck.selectedProperty().addListener((ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) -> {
+            if (new_val) {
+                Constants.IS_LOCK_SCREEN = new_val;
+//                setAutoStart();
+                lockScreen();
+                system.stop(clockActorRef);
+                System.out.println("lock screen " + new_val);
+            } else {
+                Constants.IS_LOCK_SCREEN = new_val;
+                restartClockActor();
+                System.out.println("unlock screen " + new_val);
+            }
+        });
+
+
         Button saveConfig = new Button("保存时间设置");//保存修改
         saveConfig.setOnMouseClicked(event -> {
             String workStr = textFieldWorkInterval.getText();
@@ -122,21 +143,21 @@ public class Main extends Application {
 
         ObservableList<String> data = FXCollections.observableArrayList();
         Label label3 = new Label("添加激励语言");
-        TextField luckyword = new TextField("一寸光阴一寸金" );
+        TextField luckyword = new TextField("less is more");
         Button btnAdd = new Button("+");
         btnAdd.setOnMouseClicked(event -> {
             String encourageWord = luckyword.getText();
-            System.out.println("--->"+encourageWord);
+            System.out.println("--->" + encourageWord);
             boolean isSaved = false;
-            for (String str :Constants.getEncourageMsgs()) {
-                if (str.equals(encourageWord.trim())){
-                    System.out.println(""+isSaved);
+            for (String str : Constants.getEncourageMsgs()) {
+                if (str.equals(encourageWord.trim())) {
+                    System.out.println("" + isSaved);
                     isSaved = true;
                     break;
                 }
             }
-            if (!isSaved){
-                Constants.ENCOURAGE_MSGS += ";"+encourageWord;
+            if (!isSaved) {
+                Constants.ENCOURAGE_MSGS += ";" + encourageWord;
                 Constants.saveProperties(Constants.ENCOURAGE_MSG_KEY, Constants.ENCOURAGE_MSGS);
                 data.clear();
                 data.addAll(Constants.getEncourageMsgs());
@@ -152,7 +173,7 @@ public class Main extends Application {
         data.addAll(Constants.getEncourageMsgs());
         asd.valueProperty().addListener((observable, oldValue, newValue) -> {
 //            System.out.println("---->12"+newValue);
-            if (newValue!=null){
+            if (newValue != null) {
                 Constants.ENCOURAGE_MSG = newValue;
             }
         });
@@ -175,6 +196,12 @@ public class Main extends Application {
         root.add(autoStartCheck, 0, 5);
 
         root.add(saveConfig, 1, 5);
+        Separator separator = new Separator();
+        separator.setMaxSize(450,2);
+        root.add(separator, 0, 6,2,1);
+        GridPane.setHalignment(lockScreenCheck, HPos.LEFT);
+        lockScreenCheck.setFont(Font.font(20));
+        root.add(lockScreenCheck, 0, 7,2,1);
 
         primaryStage.setScene(new Scene(root, 450, 350));
     }
@@ -207,26 +234,7 @@ public class Main extends Application {
         MessageInterface cmdMessage = new MessageInterface() {
             @Override
             public void openWin() {
-                Platform.runLater(() -> {
-                    String backImagePath = Constants.getBackImagePath();
-                    for (Screen screen : Screen.getScreens()) {
-                        Rectangle2D bounds = screen.getVisualBounds();
-                        Stage stage1 = createNewWin(bounds.getWidth(), bounds.getHeight(), backImagePath);
-                        stage1.setX(bounds.getMinX());
-                        stage1.setY(bounds.getMinY());
-                        stage1.setMaximized(true);
-                        stage1.initStyle(StageStyle.TRANSPARENT);
-                        stage1.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
-                            int count = event.getClickCount();
-                            if (count == 7) {
-                                stages.forEach(Stage::close);
-                            }
-                        });
-                        stages.add(stage1);
-                    }
-                    stages.forEach(Stage::show);
-
-                });
+                lockScreen();
             }
 
             @Override
@@ -238,6 +246,33 @@ public class Main extends Application {
             }
         };
         clockActorRef = system.actorOf(Props.create(ClockActor.class, cmdMessage), "clockActor");
+    }
+
+    private void lockScreen() {
+        Platform.runLater(() -> {
+            String backImagePath = Constants.getBackImagePath();
+            for (Screen screen : Screen.getScreens()) {
+                Rectangle2D bounds = screen.getVisualBounds();
+                Stage stage1 = createNewWin(bounds.getWidth(), bounds.getHeight(), backImagePath);
+                stage1.setX(bounds.getMinX());
+                stage1.setY(bounds.getMinY());
+                stage1.setMaximized(true);
+                stage1.initStyle(StageStyle.TRANSPARENT);
+                stage1.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
+                    int count = event.getClickCount();
+                    if (count == 7) {
+                        stages.forEach(Stage::close);
+                        if (Constants.IS_LOCK_SCREEN) {
+                            Constants.IS_LOCK_SCREEN = false;
+                            lockScreenCheck.setSelected(Constants.IS_LOCK_SCREEN);
+                        }
+                    }
+                });
+                stages.add(stage1);
+            }
+            stages.forEach(Stage::show);
+
+        });
     }
 
     private Stage createNewWin(double width, double height, String backImagePath) {

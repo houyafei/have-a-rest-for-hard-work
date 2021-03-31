@@ -23,6 +23,12 @@
 
 配置图标时，注意放图标的位置为 src/main/deploy/package/windows
 
+4)、打包，执行如下命令
+gradle jfxNative
+相应的包在build/jfx/native/
+
+
+
 # 5、支持所有屏幕全部锁屏
 
 在多个显示片状态下可以实现全部锁屏
