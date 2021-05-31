@@ -1,6 +1,8 @@
 package com.eye.util;
 
+import com.alibaba.fastjson.JSON;
 import com.eye.constant.Constants;
+import okhttp3.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +14,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.eye.constant.Constants.BI_YING_IMAGE_BASE;
+
 public class BiyingImage {
 
     public static String ObtianBackImage() {
@@ -21,9 +25,9 @@ public class BiyingImage {
         String filePath = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            String url = "http://cdn.mrabit.com/1920."+format.format(new Date())+".jpg";
+            String url = BI_YING_IMAGE_BASE + getBingPicture.getImageUrl();
             // 保存图片
-            filePath = getBingPicture.SavePicture( url);
+            filePath = getBingPicture.SavePicture(url);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -81,5 +85,20 @@ public class BiyingImage {
 
         is.close();
         return file.getAbsoluteFile().toURI().toString();
+    }
+
+
+    private String getImageUrl() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(Constants.BI_YING_IMAGE_API)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String body = response.body().string();
+            System.out.println(body);
+            return JSON.parseObject(body).getJSONArray("images").getJSONObject(0).getString("url");
+
+        }
     }
 }

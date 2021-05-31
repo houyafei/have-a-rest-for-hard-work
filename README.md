@@ -44,3 +44,6 @@ gradle jfxNative
 # 8、使用
 
 直接将 WorkHard 文件夹下的所有文件全部下载，双击其中的可执行文件即可执行。
+
+# 9、获取图片url
+https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN

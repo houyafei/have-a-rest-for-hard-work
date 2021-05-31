@@ -40,6 +40,9 @@ public class Constants {
     private static final String BACK_IMAGE_INDEX_KEY = "myeye.back.image.index";
     private static final String AUTO_START_KEY = "myeye.software.auto.start";
 
+    public static final String BI_YING_IMAGE_API ="https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN";
+
+    public static final String BI_YING_IMAGE_BASE = "https://cn.bing.com";
 
     static {
         try {
