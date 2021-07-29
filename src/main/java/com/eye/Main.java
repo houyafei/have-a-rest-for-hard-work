@@ -260,7 +260,7 @@ public class Main extends Application {
                 stage1.initStyle(StageStyle.TRANSPARENT);
                 stage1.addEventFilter(MouseEvent.MOUSE_PRESSED, event -> {
                     int count = event.getClickCount();
-                    if (count == 7) {
+                    if (count == 50) {
                         stages.forEach(Stage::close);
                         if (Constants.IS_LOCK_SCREEN) {
                             Constants.IS_LOCK_SCREEN = false;
