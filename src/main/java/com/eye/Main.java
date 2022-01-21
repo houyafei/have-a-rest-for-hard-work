@@ -3,15 +3,9 @@ package com.eye;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.actor.Props;
-
-import static akka.pattern.Patterns.gracefulStop;
-import static com.eye.constant.Constants.setAutoStart;
-
 import akka.pattern.AskTimeoutException;
-
 import com.eye.constant.Constants;
 import com.eye.msgInterface.MessageInterface;
-
 import com.eye.myclock.ClockActor;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,10 +14,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -32,13 +24,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
-
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +37,9 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static akka.pattern.Patterns.gracefulStop;
+import static com.eye.constant.Constants.setAutoStart;
 
 public class Main extends Application {
 
@@ -251,9 +245,13 @@ public class Main extends Application {
     private void lockScreen() {
         Platform.runLater(() -> {
             String backImagePath = Constants.getBackImagePath();
+            Constants.updateSentence();
             for (Screen screen : Screen.getScreens()) {
                 Rectangle2D bounds = screen.getVisualBounds();
-                Stage stage1 = createNewWin(bounds.getWidth(), bounds.getHeight(), backImagePath);
+                Stage stage1 = null;
+
+                stage1 = createNewWin(bounds.getWidth(), bounds.getHeight(), backImagePath);
+
                 stage1.setX(bounds.getMinX());
                 stage1.setY(bounds.getMinY());
                 stage1.setMaximized(true);
@@ -275,7 +273,7 @@ public class Main extends Application {
         });
     }
 
-    private Stage createNewWin(double width, double height, String backImagePath) {
+    private Stage createNewWin(double width, double height, String backImagePath)   {
         BackgroundSize backgroundSize = new BackgroundSize(width, height, true, true, false, true);
         Background background = new Background(new BackgroundImage(new Image(backImagePath),
                 null, null, BackgroundPosition.CENTER, backgroundSize));
@@ -283,13 +281,15 @@ public class Main extends Application {
 
         Stage stage = new Stage();
         BorderPane root = new BorderPane();
-        Label protectLabel = new Label("\n " + Constants.ENCOURAGE_MSG + "\n\n    ");
-        protectLabel.setFont(Font.font("Timer New Roman", FontPosture.ITALIC, 25));
+
+        Label protectLabel = new Label("\n " + Constants.getRandomMsg() + "\n\n    ");
+        protectLabel.setFont(Font.font("Timer New Roman", FontPosture.REGULAR, 23));
+        protectLabel.setWrapText(true);
         protectLabel.setBackground(labelBack);
         protectLabel.setAlignment(Pos.CENTER);
         protectLabel.setTextFill(Color.rgb(232, 240, 230));
-        protectLabel.setPrefWidth(500);
-        protectLabel.setPrefHeight(160);
+        protectLabel.setPrefWidth(750);
+        protectLabel.setPrefHeight(200);
         root.setCenter(protectLabel);
         root.setBackground(background);
         stage.setTitle("Have a rest");
