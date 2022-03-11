@@ -1,9 +1,10 @@
 package com.eye.util;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * Yafei
@@ -21,7 +22,8 @@ public class BeautifulSentence {
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
-                result = new String(new BASE64Decoder().decodeBuffer(line),"utf-8");
+                result = new String(Base64.getDecoder().decode(line.getBytes()), StandardCharsets.UTF_8);
+//                result = new String(new BASE64Decoder().decodeBuffer(line),"utf-8");
             }
             in.close();
             proc.waitFor();
