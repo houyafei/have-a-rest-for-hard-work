@@ -52,6 +52,7 @@ Execution failed for task ':jfxNative'.
 
 # 7、参考
 【1】[源码地址](https://github.com/houyafei/have-a-rest-for-hard-work)
+
 【2】[java创建exe程序快捷键方式](https://blog.csdn.net/rico_zhou/article/details/80062917)
 
 # 8、使用
@@ -64,6 +65,9 @@ https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN
 
 # 10、版本
 1)、 gradle 版本5.6.1
+
 2)、 javaFx  版本11.0.1
+
 3)、 java 1.8
+
 4)、 scala 2.11
