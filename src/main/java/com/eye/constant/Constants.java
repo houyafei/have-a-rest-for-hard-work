@@ -50,7 +50,7 @@ public class Constants {
     private static final String AUTO_START_KEY = "myeye.software.auto.start";
     private static final String PYTHON_FILE1_PATH_KEY = "myeye.python.file1.path";
 
-    public static final String BI_YING_IMAGE_API ="https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN";
+    public static final String BI_YING_IMAGE_API = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN";
 
     public static final String BI_YING_IMAGE_BASE = "https://cn.bing.com";
 
@@ -84,7 +84,7 @@ public class Constants {
         }
     }
 
-    public static String[] getEncourageMsgs(){
+    public static String[] getEncourageMsgs() {
         return ENCOURAGE_MSGS.split(";");
     }
 
@@ -161,17 +161,17 @@ public class Constants {
 
 
     public static String getPythonFile1Path() {
-            return PYTHON_FILE1_PATH;
+        return PYTHON_FILE1_PATH;
     }
 
-    public static void updateSentence(){
+    public static void updateSentence() {
         new Thread(() -> {
             try {
-                String s ;
+                String s;
                 for (int i = 0; i < 2; i++) {
-                    do{
+                    do {
                         s = BeautifulSentence.getSentence(PYTHON_FILE1_PATH);
-                    }while(s.length()>30);
+                    } while (s.length() > 30);
                     RANDOM_MSGS.addLast(s);
                 }
 
@@ -183,8 +183,8 @@ public class Constants {
     }
 
 
-    public static String getRandomMsg(){
-        return RANDOM_MSGS.poll();
+    public static String getRandomMsg() {
+        return RANDOM_MSGS.poll().isEmpty() ? ENCOURAGE_MSG : RANDOM_MSGS.poll();
     }
 
 
@@ -202,7 +202,6 @@ public class Constants {
         System.out.println(unicode.toString());
         return unicode.toString();
     }
-
 
 
 }

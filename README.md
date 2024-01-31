@@ -15,6 +15,7 @@
 锁屏状态下，如果要想强制解锁，连续点击5次鼠标即可开锁
 
 # 4、 使用相关技术
+
 1)、akka actor的定时执行
 
 2)、javaFX设置界面
@@ -24,8 +25,20 @@
 配置图标时，注意放图标的位置为 src/main/deploy/package/windows
 
 4)、打包，执行如下命令
+```groovy
 gradle jfxNative
+
+```
+
 相应的包在build/jfx/native/
+
+注意：可能出现异常提示，可以忽略，暂不影响
+```text
+Execution failed for task ':jfxNative'.
+> java.lang.NoSuchMethodError: com.oracle.tools.packager.windows.WinAppBundler.lambda$copyMSVCDLLs$261(Ljava/nio/file/Path;)Z
+```
+
+
 
 
 
@@ -47,3 +60,10 @@ gradle jfxNative
 
 # 9、获取图片url
 https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN
+
+
+# 10、版本
+1)、 gradle 版本5.6.1
+2)、 javaFx  版本11.0.1
+3)、 java 1.8
+4)、 scala 2.11

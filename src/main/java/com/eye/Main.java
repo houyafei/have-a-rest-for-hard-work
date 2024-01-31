@@ -77,7 +77,7 @@ public class Main extends Application {
     private void settingUI(Stage primaryStage, GridPane root) {
         root.setVgap(20);
         root.setHgap(10);
-        root.setAlignment(Pos.TOP_CENTER);
+        root.setAlignment(Pos.CENTER);
 
         Label label1 = new Label("\u8bbe\u7f6e\u5de5\u4f5c\u65f6\u957f\u0028\u5206\u949f\u0029"); //工作时长
         TextField textFieldWorkInterval = new TextField("" + (Constants.WORKING_INTERVAL_SECONDS) / 60);
@@ -197,7 +197,7 @@ public class Main extends Application {
         lockScreenCheck.setFont(Font.font(20));
         root.add(lockScreenCheck, 0, 7,2,1);
 
-        primaryStage.setScene(new Scene(root, 450, 350));
+        primaryStage.setScene(new Scene(root, 550, 350));
     }
 
     private void restartClockActor() {
@@ -283,6 +283,7 @@ public class Main extends Application {
         BorderPane root = new BorderPane();
 
         Label protectLabel = new Label("\n " + Constants.getRandomMsg() + "\n\n    ");
+//        Label protectLabel = new Label("\n " + Constants.ENCOURAGE_MSG + "\n\n    ");
         protectLabel.setFont(Font.font("Timer New Roman", FontPosture.REGULAR, 23));
         protectLabel.setWrapText(true);
         protectLabel.setBackground(labelBack);
